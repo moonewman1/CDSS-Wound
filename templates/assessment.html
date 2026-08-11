@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Wound Assessment</title>
+
+    <link rel="stylesheet"
+          href="/static/style.css">
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>ประเมินลักษณะแผล</h1>
+
+
+    <form action="/assess" method="post">
+
+
+        <!-- Wound type -->
+
+        <label>
+            1. ประเภทของแผล
+        </label>
+
+        <select name="wound_type" required>
+
+            <option value="">
+                -- เลือก --
+            </option>
+
+            <option value="abrasion">
+                แผลถลอก
+            </option>
+
+            <option value="laceration">
+                แผลฉีกขาด
+            </option>
+
+            <option value="burn">
+                แผลไหม้
+            </option>
+
+            <option value="pressure">
+                แผลกดทับ
+            </option>
+
+            <option value="other">
+                อื่น ๆ
+            </option>
+
+        </select>
+
+
+        <!-- Depth -->
+
+        <label>
+            2. ความลึกของแผล
+        </label>
+
+        <select name="depth" required>
+
+            <option value="">
+                -- เลือก --
+            </option>
+
+            <option value="superficial">
+                ตื้น
+            </option>
+
+            <option value="partial">
+                Partial thickness
+            </option>
+
+            <option value="deep">
+                ลึก
+            </option>
+
+        </select>
+
+
+        <!-- Exudate -->
+
+        <label>
+            3. ปริมาณสารคัดหลั่ง
+        </label>
+
+        <select name="exudate" required>
+
+            <option value="">
+                -- เลือก --
+            </option>
+
+            <option value="none">
+                ไม่มี
+            </option>
+
+            <option value="low">
+                น้อย
+            </option>
+
+            <option value="moderate">
+                ปานกลาง
+            </option>
+
+            <option value="high">
+                มาก
+            </option>
+
+        </select>
+
+
+        <!-- Wound bed -->
+
+        <label>
+            4. ลักษณะ wound bed
+        </label>
+
+        <select name="wound_bed" required>
+
+            <option value="">
+                -- เลือก --
+            </option>
+
+            <option value="granulation">
+                Granulation tissue
+            </option>
+
+            <option value="slough">
+                Slough
+            </option>
+
+            <option value="necrotic">
+                Necrotic tissue
+            </option>
+
+            <option value="epithelial">
+                Epithelial tissue
+            </option>
+
+        </select>
+
+
+        <!-- Infection -->
+
+        <label>
+            5. สงสัยการติดเชื้อหรือไม่
+        </label>
+
+        <select name="infection" required>
+
+            <option value="">
+                -- เลือก --
+            </option>
+
+            <option value="no">
+                ไม่พบลักษณะสงสัยการติดเชื้อ
+            </option>
+
+            <option value="yes">
+                สงสัยการติดเชื้อ
+            </option>
+
+        </select>
+
+
+        <!-- Periwound -->
+
+        <label>
+            6. สภาพผิวหนังรอบแผล
+        </label>
+
+        <select name="periwound" required>
+
+            <option value="">
+                -- เลือก --
+            </option>
+
+            <option value="normal">
+                ปกติ
+            </option>
+
+            <option value="macerated">
+                Maceration
+            </option>
+
+            <option value="dry">
+                แห้ง
+            </option>
+
+            <option value="erythematous">
+                แดง
+            </option>
+
+        </select>
+
+
+        <!-- Location -->
+
+        <label>
+            7. ตำแหน่งของแผล
+        </label>
+
+        <select name="location" required>
+
+            <option value="">
+                -- เลือก --
+            </option>
+
+            <option value="face">
+                ใบหน้า
+            </option>
+
+            <option value="trunk">
+                ลำตัว
+            </option>
+
+            <option value="upper_limb">
+                แขน
+            </option>
+
+            <option value="lower_limb">
+                ขา
+            </option>
+
+            <option value="other">
+                อื่น ๆ
+            </option>
+
+        </select>
+
+
+        <button type="submit">
+            ประเมินแผล
+        </button>
+
+
+    </form>
+
+</div>
+
+
+<script src="/static/script.js"></script>
+
+</body>
+
+</html>

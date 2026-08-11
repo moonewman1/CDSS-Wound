@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Assessment Result</title>
+
+    <link rel="stylesheet"
+          href="/static/style.css">
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>ผลการประเมินแผล</h1>
+
+
+    <!-- Assessment -->
+
+    <div class="card">
+
+        <h2>ข้อมูลแผล</h2>
+
+        <p>
+            ประเภทแผล:
+            {{ result.assessment.wound_type }}
+        </p>
+
+        <p>
+            ความลึก:
+            {{ result.assessment.depth }}
+        </p>
+
+        <p>
+            Exudate:
+            {{ result.assessment.exudate }}
+        </p>
+
+        <p>
+            Wound bed:
+            {{ result.assessment.wound_bed }}
+        </p>
+
+        <p>
+            Infection:
+            {{ result.assessment.infection }}
+        </p>
+
+        <p>
+            Periwound:
+            {{ result.assessment.periwound }}
+        </p>
+
+        <p>
+            Location:
+            {{ result.assessment.location }}
+        </p>
+
+    </div>
+
+
+    <!-- Warning -->
+
+    {% if result.warnings %}
+
+    <div class="warning">
+
+        <h2>⚠ ข้อควรระวัง</h2>
+
+        {% for warning in result.warnings %}
+
+        <p>
+            {{ warning }}
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- Recommendation -->
+
+    <div class="recommendation">
+
+        <h2>
+            คำแนะนำ
+        </h2>
+
+
+        {% for recommendation in result.recommendations %}
+
+        <p>
+            • {{ recommendation }}
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- Reason -->
+
+    {% if result.reasons %}
+
+    <div class="card">
+
+        <h2>
+            เหตุผล
+        </h2>
+
+        {% for reason in result.reasons %}
+
+        <p>
+            • {{ reason }}
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+
+    <a href="/assessment">
+
+        <button>
+            ประเมินแผลใหม่
+        </button>
+
+    </a>
+
+
+</div>
+
+</body>
+
+</html>
