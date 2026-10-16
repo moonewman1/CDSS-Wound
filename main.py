@@ -1,3 +1,6 @@
+import hashlib
+from pathlib import Path
+
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -14,6 +17,9 @@ app = FastAPI(
 
 # Templates
 templates = Jinja2Templates(directory="templates")
+templates.env.globals["static_version"] = hashlib.sha256(
+    Path("static/style.css").read_bytes()
+).hexdigest()[:12]
 
 
 # Static files

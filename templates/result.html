@@ -1,148 +1,124 @@
 <!DOCTYPE html>
 
 <html lang="th">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Assessment Result</title>
-
-    <link rel="stylesheet"
-          href="/static/style.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f8f6">
+    <title>ผลการประเมิน | CDSS-Wound</title>
+    <link rel="stylesheet" href="/static/style.css?v={{ static_version }}">
 </head>
+<body class="app-page">
+    <header class="site-header">
+        <a class="brand" href="/" aria-label="CDSS-Wound หน้าหลัก">
+            <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 3.5v25M3.5 16h25" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span>
+            <span>CDSS<span class="brand-accent">-Wound</span></span>
+        </a>
+        <span class="header-caption">ผลการประเมิน</span>
+    </header>
+    <main class="page-main result-main">
+        <a class="back-link" href="/assessment"><span aria-hidden="true">←</span> กลับไปประเมิน</a>
+        <section class="result-heading">
+            <span class="result-check" aria-hidden="true">✓</span>
+            <div>
+                <p class="eyebrow">ASSESSMENT SUMMARY</p>
+                <h1>ผลการประเมินแผล</h1>
+                <p>ตรวจสอบข้อมูลและคำแนะนำเบื้องต้นด้านล่าง</p>
+            </div>
+        </section>
 
+        {% if result.warnings %}
+        <section class="warning result-panel" aria-labelledby="warning-title">
+            <div class="panel-heading">
+                <span class="panel-icon warning-icon" aria-hidden="true">!</span>
+                <div><p class="eyebrow">PLEASE NOTE</p><h2 id="warning-title">ข้อควรระวัง</h2></div>
+            </div>
+            <ul>
+                {% for warning in result.warnings %}
+                <li>{{ warning }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
 
-<body>
+        <section class="recommendation result-panel" aria-labelledby="recommendation-title">
+            <div class="panel-heading">
+                <span class="panel-icon recommendation-icon" aria-hidden="true">✓</span>
+                <div><p class="eyebrow">SUGGESTED NEXT STEPS</p><h2 id="recommendation-title">คำแนะนำ</h2></div>
+            </div>
+            <ul>
+                {% for recommendation in result.recommendations %}
+                <li>{{ recommendation }}</li>
+                {% endfor %}
+            </ul>
+        </section>
 
-<div class="container">
+        <section class="data-panel">
+            <div class="section-heading">
+                <div><p class="eyebrow">WOUND DETAILS</p><h2>ข้อมูลที่ใช้ประเมิน</h2></div>
+                <a href="/assessment" class="edit-link">แก้ไขข้อมูล <span aria-hidden="true">→</span></a>
+            </div>
+            {% set labels = {
+                "wound_type": "ประเภทแผล",
+                "depth": "ความลึก",
+                "exudate": "สารคัดหลั่ง",
+                "wound_bed": "ลักษณะเนื้อเยื่อ",
+                "infection": "การติดเชื้อ",
+                "periwound": "ผิวหนังรอบแผล",
+                "location": "ตำแหน่งแผล"
+            } %}
+            {% set values = {
+                "abrasion": "แผลถลอก",
+                "laceration": "แผลฉีกขาด",
+                "burn": "แผลไหม้",
+                "pressure": "แผลกดทับ",
+                "other": "อื่น ๆ",
+                "superficial": "ตื้น",
+                "partial": "Partial thickness",
+                "deep": "ลึก",
+                "none": "ไม่มี",
+                "low": "น้อย",
+                "moderate": "ปานกลาง",
+                "high": "มาก",
+                "granulation": "Granulation tissue",
+                "slough": "Slough",
+                "necrotic": "Necrotic tissue",
+                "epithelial": "Epithelial tissue",
+                "no": "ไม่พบลักษณะสงสัยการติดเชื้อ",
+                "yes": "สงสัยการติดเชื้อ",
+                "normal": "ปกติ",
+                "macerated": "Maceration",
+                "dry": "แห้ง",
+                "erythematous": "แดง",
+                "face": "ใบหน้า",
+                "trunk": "ลำตัว",
+                "upper_limb": "แขน",
+                "lower_limb": "ขา"
+            } %}
+            <dl class="assessment-details">
+                {% for key, value in result.assessment.items() %}
+                <div class="detail-item">
+                    <dt>{{ labels[key] }}</dt>
+                    <dd>{{ values.get(value, value) }}</dd>
+                </div>
+                {% endfor %}
+            </dl>
+        </section>
 
-    <h1>ผลการประเมินแผล</h1>
+        {% if result.reasons %}
+        <section class="reason-panel">
+            <p class="eyebrow">WHY THIS SUGGESTION</p>
+            <h2>เหตุผลประกอบคำแนะนำ</h2>
+            <ul>
+                {% for reason in result.reasons %}
+                <li>{{ reason }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
 
-
-    <!-- Assessment -->
-
-    <div class="card">
-
-        <h2>ข้อมูลแผล</h2>
-
-        <p>
-            ประเภทแผล:
-            {{ result.assessment.wound_type }}
-        </p>
-
-        <p>
-            ความลึก:
-            {{ result.assessment.depth }}
-        </p>
-
-        <p>
-            Exudate:
-            {{ result.assessment.exudate }}
-        </p>
-
-        <p>
-            Wound bed:
-            {{ result.assessment.wound_bed }}
-        </p>
-
-        <p>
-            Infection:
-            {{ result.assessment.infection }}
-        </p>
-
-        <p>
-            Periwound:
-            {{ result.assessment.periwound }}
-        </p>
-
-        <p>
-            Location:
-            {{ result.assessment.location }}
-        </p>
-
-    </div>
-
-
-    <!-- Warning -->
-
-    {% if result.warnings %}
-
-    <div class="warning">
-
-        <h2>⚠ ข้อควรระวัง</h2>
-
-        {% for warning in result.warnings %}
-
-        <p>
-            {{ warning }}
-        </p>
-
-        {% endfor %}
-
-    </div>
-
-    {% endif %}
-
-
-    <!-- Recommendation -->
-
-    <div class="recommendation">
-
-        <h2>
-            คำแนะนำ
-        </h2>
-
-
-        {% for recommendation in result.recommendations %}
-
-        <p>
-            • {{ recommendation }}
-        </p>
-
-        {% endfor %}
-
-    </div>
-
-
-    <!-- Reason -->
-
-    {% if result.reasons %}
-
-    <div class="card">
-
-        <h2>
-            เหตุผล
-        </h2>
-
-        {% for reason in result.reasons %}
-
-        <p>
-            • {{ reason }}
-        </p>
-
-        {% endfor %}
-
-    </div>
-
-    {% endif %}
-
-
-    <a href="/assessment">
-
-        <button>
-            ประเมินแผลใหม่
-        </button>
-
-    </a>
-
-
-</div>
-
+        <p class="disclaimer result-disclaimer">ผลลัพธ์นี้เป็นข้อมูลสนับสนุนเบื้องต้น ไม่ทดแทนการวินิจฉัยหรือคำแนะนำจากบุคลากรทางการแพทย์</p>
+        <a class="button button-secondary" href="/assessment">เริ่มประเมินใหม่ <span aria-hidden="true">↗</span></a>
+    </main>
 </body>
-
 </html>
