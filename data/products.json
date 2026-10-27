@@ -1,0 +1,161 @@
+{
+  "catalog_note": "รายการตั้งต้นจากเอกสารร่าง ไม่ใช่รายการครบถ้วนหรือยืนยันว่าจำหน่ายในประเทศไทย; ต้องตรวจสอบ Thai FDA และตัวแทนจำหน่ายก่อนใช้งาน",
+  "classes": [
+    {
+      "id": "film",
+      "name": "แผ่นฟิล์มใส (transparent film)",
+      "use": "แผลตื้นมากที่แห้ง/ปิดแล้ว หรือช่วยป้องกันการเสียดสี",
+      "wear": "3–7 วัน หรือตามฉลาก",
+      "caution": "ไม่ดูดซับ; หลีกเลี่ยงเมื่อสงสัยติดเชื้อหรือมีสารคัดหลั่งมาก",
+      "brands": ["Tegaderm (3M/Solventum)", "OpSite (Smith+Nephew)", "Hydrofilm (Hartmann)", "Askina Derm (B. Braun)"],
+      "thai_fda_reg_no": null,
+      "thai_fda_verified": false,
+      "verified_date": null,
+      "available_in_thailand": null,
+      "cost_tier": null,
+      "source_refs": ["ATTACHED_DRAFT"]
+    },
+    {
+      "id": "hydrocolloid",
+      "name": "ไฮโดรคอลลอยด์ (ชนิดบาง/มาตรฐาน)",
+      "use": "แผลตื้น สะอาด มีสารคัดหลั่งน้อย–ปานกลาง และตุ่มพอง",
+      "wear": "3–7 วัน หรือตามฉลาก",
+      "caution": "หลีกเลี่ยงแผลติดเชื้อ แผลลึก/มีโพรง และผิวบอบบางมาก; กลิ่นเฉพาะตัวอาจเกิดได้",
+      "brands": ["DuoDERM (ConvaTec)", "Comfeel (Coloplast)", "Tegasorb (3M)", "Compeed", "NexCare (3M)"],
+      "thai_fda_reg_no": null,
+      "thai_fda_verified": false,
+      "verified_date": null,
+      "available_in_thailand": null,
+      "cost_tier": null,
+      "source_refs": ["ATTACHED_DRAFT"]
+    },
+    {
+      "id": "foam",
+      "name": "โฟมดูดซับ (foam; รวมชนิดขอบซิลิโคนบางรุ่น)",
+      "use": "แผลมีสารคัดหลั่งปานกลาง–มาก หรือช่วยป้องกันแรงกด; เลือกรุ่นไม่ติดแผลตามสภาพผิว",
+      "wear": "3–7 วัน หรือตามความอิ่มตัวและฉลาก",
+      "caution": "ไม่เหมาะกับแผลแห้ง/eschar; ตรวจส่วนประกอบและกาวของแต่ละรุ่นเมื่อมีประวัติแพ้",
+      "brands": ["Mepilex/Mepilex Border (Mölnlycke)", "Allevyn (Smith+Nephew)", "Biatain (Coloplast)", "Askina Foam (B. Braun)", "PolyMem (Ferris)", "Tielle"],
+      "thai_fda_reg_no": null,
+      "thai_fda_verified": false,
+      "verified_date": null,
+      "available_in_thailand": null,
+      "cost_tier": null,
+      "source_refs": ["ATTACHED_DRAFT"]
+    },
+    {
+      "id": "alginate",
+      "name": "อัลจิเนต (alginate)",
+      "use": "แผลมีสารคัดหลั่งปานกลาง–มากหรือเลือดซึมเล็กน้อย โดยต้องมีแผ่นปิดทับ",
+      "wear": "1–3 วัน หรือตามปริมาณสารคัดหลั่ง",
+      "caution": "ห้ามใช้กับแผลแห้ง; ต้องใช้ secondary dressing; ตรวจประวัติแพ้อัลจิเนต",
+      "brands": ["Kaltostat (ConvaTec)", "Algisite M (Smith+Nephew)", "Askina Sorb (B. Braun)", "Melgisorb (Mölnlycke)", "Sorbsan"],
+      "thai_fda_reg_no": null,
+      "thai_fda_verified": false,
+      "verified_date": null,
+      "available_in_thailand": null,
+      "cost_tier": null,
+      "source_refs": ["ATTACHED_DRAFT"]
+    },
+    {
+      "id": "hydrofiber",
+      "name": "ไฮโดรไฟเบอร์/CMC (hydrofiber)",
+      "use": "แผลมีสารคัดหลั่งปานกลาง–มาก หรือแผลเป็นร่องตื้น; ช่วยจัดการความชื้น",
+      "wear": "ได้ถึง 7 วัน หรือตามฉลาก",
+      "caution": "ห้ามใช้กับแผลแห้ง; ต้องมี secondary dressing; แผลลึก/โพรงให้ส่งต่อ",
+      "brands": ["Aquacel/Aquacel Extra (ConvaTec)"],
+      "thai_fda_reg_no": null,
+      "thai_fda_verified": false,
+      "verified_date": null,
+      "available_in_thailand": null,
+      "cost_tier": null,
+      "source_refs": ["ATTACHED_DRAFT"]
+    },
+    {
+      "id": "hydrogel",
+      "name": "ไฮโดรเจล (sheet/amorphous)",
+      "use": "แผลแห้งหรือมี slough แห้งบางกรณี เพื่อเพิ่มความชุ่มชื้น; เลือกใช้หลังประเมินโดยผู้เชี่ยวชาญ",
+      "wear": "1–3 วัน หรือตามฉลาก",
+      "caution": "หลีกเลี่ยงสารคัดหลั่งมาก/เสี่ยงผิวเปื่อย; ระวังการติดเชื้อและห้ามตัดเนื้อตายเอง",
+      "brands": ["IntraSite Gel (Smith+Nephew)", "DuoDERM Gel (ConvaTec)", "Purilon (Coloplast)", "Askina Gel (B. Braun)", "Hydrosorb (Hartmann)"],
+      "thai_fda_reg_no": null,
+      "thai_fda_verified": false,
+      "verified_date": null,
+      "available_in_thailand": null,
+      "cost_tier": null,
+      "source_refs": ["ATTACHED_DRAFT"]
+    },
+    {
+      "id": "silicone_contact",
+      "name": "แผ่นสัมผัสซิลิโคน (silicone contact layer/mesh)",
+      "use": "ผิวบอบบาง, skin tear, แผลไหม้ตื้น หรือเมื่อต้องการลดการบาดเจ็บตอนเปลี่ยนแผล",
+      "wear": "3–14 วัน หรือตามฉลาก; เปลี่ยนแผ่นปิดทับตามความอิ่มตัว",
+      "caution": "ต้องมีแผ่นปิดทับที่ดูดซับสารคัดหลั่ง; หลีกเลี่ยงเมื่อแพ้ซิลิโคน",
+      "brands": ["Mepitel (Mölnlycke)", "Urgotul (Urgo)", "Adaptic Touch (Solventum)", "Atrauman Silicone (Hartmann)"],
+      "thai_fda_reg_no": null,
+      "thai_fda_verified": false,
+      "verified_date": null,
+      "available_in_thailand": null,
+      "cost_tier": null,
+      "source_refs": ["ATTACHED_DRAFT"]
+    },
+    {
+      "id": "non_adherent",
+      "name": "แผ่นปิดแผลชนิดไม่ติดแผล (non-adherent/paraffin tulle)",
+      "use": "แผลตื้นทั่วไปที่ไม่ติดเชื้อและมีสารคัดหลั่งน้อย",
+      "wear": "1–3 วัน หรือตามฉลาก",
+      "caution": "บางชนิดอาจติดแผลและไม่ดูดซับ ต้องพิจารณาแผ่นปิดทับ",
+      "brands": ["Jelonet (Smith+Nephew)", "Atrauman (Hartmann)", "Cuticerin"],
+      "thai_fda_reg_no": null,
+      "thai_fda_verified": false,
+      "verified_date": null,
+      "available_in_thailand": null,
+      "cost_tier": null,
+      "source_refs": ["ATTACHED_DRAFT"]
+    }
+  ],
+  "clinician_managed_classes": [
+    {
+      "name": "วัสดุปิดแผลต้านจุลชีพชนิดเงิน (silver)",
+      "use": "พิจารณาเฉพาะเมื่อแพทย์ประเมินการติดเชื้อเฉพาะที่และกำหนดแผน; ใช้ระยะสั้นและประเมินซ้ำ",
+      "caution": "ไม่ใช้แทนการประเมิน/รักษาการติดเชื้อ; ตรวจการแพ้เงินและข้อควรระวังตามฉลาก",
+      "brands": ["Acticoat (Smith+Nephew)", "Aquacel Ag (ConvaTec)", "Mepilex Ag (Mölnlycke)", "Biatain Ag (Coloplast)", "Urgotul Ag/UrgoCell Ag"]
+    },
+    {
+      "name": "วัสดุปิดแผลไอโอดีน (cadexomer iodine/PVP-I)",
+      "use": "ใช้เฉพาะตามแผนแพทย์และฉลากผลิตภัณฑ์",
+      "caution": "ระวังโรคไทรอยด์ การตั้งครรภ์/ให้นมบุตร ทารก และประวัติแพ้ไอโอดีน",
+      "brands": ["Inadine (PVP-I)", "Iodosorb (cadexomer iodine)"]
+    },
+    {
+      "name": "วัสดุปิดแผล medical-grade honey",
+      "use": "ใช้เฉพาะตามแผนแพทย์และฉลากผลิตภัณฑ์",
+      "caution": "ระวังแพ้ผลิตภัณฑ์จากผึ้ง อาการแสบ และข้อควรระวังในผู้ป่วยเบาหวาน",
+      "brands": ["Medihoney (Derma Sciences/Integra)"]
+    },
+    {
+      "name": "วัสดุปิดแผล PHMB/DACC",
+      "use": "พิจารณาตามแผนแพทย์เพื่อจัดการภาระเชื้อ",
+      "caution": "ไม่ใช้แทนการประเมินและรักษาการติดเชื้อ",
+      "brands": ["Suprasorb X+PHMB (Lohmann & Rauscher)", "Cutimed Sorbact (BSN Medical/Essity)"]
+    },
+    {
+      "name": "แผ่นถ่านกัมมันต์ (activated charcoal)",
+      "use": "ช่วยจัดการกลิ่นเมื่อค้นหาและดูแลสาเหตุร่วมแล้ว",
+      "caution": "ไม่รักษาสาเหตุของกลิ่นหรือการติดเชื้อ",
+      "brands": ["Actisorb", "Carbonet (Smith+Nephew)"]
+    },
+    {
+      "name": "Compression (bandage/hosiery)",
+      "use": "ใช้เฉพาะแผลหลอดเลือดดำที่แพทย์ยืนยัน หลังประเมินหลอดเลือดแดง/ABI และอยู่ในแผนผู้ชำนาญ",
+      "caution": "ห้ามใช้เมื่อสงสัย PAD, ABI <0.8 หรือยังไม่ได้ประเมิน ABI; ระบบนี้ไม่แนะนำ compression",
+      "brands": ["Profore", "Coban 2", "Setopress/Comprilan", "Tubigrip/hosiery"]
+    },
+    {
+      "name": "UrgoStart (ตัวเลือกเฉพาะตาม NICE HTG502/MTG42)",
+      "use": "ข้อมูลประกอบสำหรับ VLU ที่แพทย์ดูแลหลังแก้ปัจจัยที่แก้ได้; ไม่ใช่คำแนะนำสำหรับแผลเท้าเบาหวานในร้านยา",
+      "caution": "ไม่ใช้ในแผลที่ขาซึ่งไม่ใช่ venous; ตรวจข้อบ่งใช้และแผนแพทย์",
+      "brands": ["UrgoStart (Urgo)"]
+    }
+  ]
+}

@@ -1,11 +1,14 @@
 import hashlib
 from pathlib import Path
 
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from pydantic import ValidationError
 
+from models import WoundAssessment
 from wound_logic import assess_wound
+from wound_rules import MULTI_SELECT_CHOICES, RED_FLAG_QUESTIONS
 
 
 app = FastAPI(
@@ -14,12 +17,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
-
 # Templates
 templates = Jinja2Templates(directory="templates")
-templates.env.globals["static_version"] = hashlib.sha256(
-    Path("static/style.css").read_bytes()
-).hexdigest()[:12]
+templates = Jinja2Templates(directory="templates")
+static_content = Path("static/style.css").read_bytes() + Path("static/script.js").read_bytes()
+templates.env.globals["static_version"] = hashlib.sha256(static_content).hexdigest()[:12]
 
 
 # Static files
@@ -49,10 +51,10 @@ def home(request: Request):
 
 @app.get("/assessment")
 def assessment(request: Request):
-
     return templates.TemplateResponse(
         request=request,
-        name="assessment.html"
+        name="assessment.html",
+        context={"red_flags": RED_FLAG_QUESTIONS},
     )
 
 
@@ -61,27 +63,26 @@ def assessment(request: Request):
 # =========================
 
 @app.post("/assess")
-def assess(
-    request: Request,
+async def assess(request: Request):
+    form = await request.form()
+    payload = {
+        "red_flags": {code: form.get(code, "") for code in RED_FLAG_QUESTIONS},
+    }
+    for field in WoundAssessment.model_fields:
+        if field == "red_flags":
+            continue
+        if field in MULTI_SELECT_CHOICES:
+            payload[field] = form.getlist(field)
+        else:
+            payload[field] = form.get(field, "")
 
-    wound_type: str = Form(...),
-    depth: str = Form(...),
-    exudate: str = Form(...),
-    wound_bed: str = Form(...),
-    infection: str = Form(...),
-    periwound: str = Form(...),
-    location: str = Form(...)
-):
+    try:
+        assessment_data = WoundAssessment.model_validate(payload)
+    except ValidationError as error:
+        messages = "; ".join(item["msg"] for item in error.errors())
+        raise HTTPException(status_code=422, detail=messages) from error
 
-    result = assess_wound(
-        wound_type=wound_type,
-        depth=depth,
-        exudate=exudate,
-        wound_bed=wound_bed,
-        infection=infection,
-        periwound=periwound,
-        location=location
-    )
+    result = assess_wound(assessment_data)
 
     return templates.TemplateResponse(
         request=request,

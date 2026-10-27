@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -20,92 +19,244 @@
         <a class="back-link" href="/"><span aria-hidden="true">←</span> กลับหน้าหลัก</a>
         <section class="form-shell">
             <div class="page-heading">
-                <p class="eyebrow">WOUND ASSESSMENT</p>
-                <h1>ประเมินลักษณะแผล</h1>
-                <p>กรุณาเลือกข้อมูลที่ตรงกับลักษณะแผลมากที่สุด เพื่อรับคำแนะนำเบื้องต้น</p>
-                <div class="progress-label"><span>ข้อมูลที่ต้องระบุ</span><span>7 รายการ</span></div>
-                <div class="progress-track"><span></span></div>
+                <p class="eyebrow">PHARMACIST WOUND ASSESSMENT</p>
+                <h1>คัดกรองและประเมินลักษณะแผล</h1>
+                <p>กรอกข้อมูลที่สังเกตได้ตามลำดับ ระบบจะคัดกรองสัญญาณอันตรายก่อนแสดงตัวเลือกดูแลเบื้องต้น</p>
+                <div class="progress-label"><span id="step-label">ขั้นที่ 1: คัดกรองอันตราย</span><span id="step-count">1 / 4</span></div>
+                <div class="progress-track" role="progressbar" aria-label="ความคืบหน้า" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"><span id="progress-value"></span></div>
             </div>
 
-            <form action="/assess" method="post" class="assessment-form">
-                <div class="form-grid">
-                    <div class="form-field">
-                        <label for="wound_type"><span class="field-number">01</span> ประเภทของแผล</label>
-                        <select id="wound_type" name="wound_type" required>
-                            <option value="">เลือกประเภทของแผล</option>
-                            <option value="abrasion">แผลถลอก</option>
-                            <option value="laceration">แผลฉีกขาด</option>
-                            <option value="burn">แผลไหม้</option>
-                            <option value="pressure">แผลกดทับ</option>
-                            <option value="other">อื่น ๆ</option>
-                        </select>
+            <form action="/assess" method="post" class="assessment-form" id="assessment-form">
+                <section class="wizard-step" data-step="0" aria-labelledby="red-flags-heading">
+                    <h2 id="red-flags-heading" class="step-heading">1. คัดกรองสัญญาณอันตราย</h2>
+                    <p class="step-intro">ตอบทุกข้อก่อน ระบบจะหยุดแนะนำผลิตภัณฑ์เมื่อพบข้อบ่งชี้ให้ส่งต่อ</p>
+                    <div class="form-grid">
+                        <div class="form-field form-field-full">
+                            <label for="a1">A1 · {{ red_flags["a1"] }}</label>
+                            <select id="a1" name="a1" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field form-field-full">
+                            <label for="a2">A2 · {{ red_flags["a2"] }}</label>
+                            <select id="a2" name="a2" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option><option value="unable">ประเมินไม่ได้</option></select>
+                        </div>
+                        <div class="form-field form-field-full">
+                            <label for="a3">A3 · {{ red_flags["a3"] }}</label>
+                            <select id="a3" name="a3" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field form-field-full">
+                            <label for="a4">A4 · {{ red_flags["a4"] }}</label>
+                            <select id="a4" name="a4" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field form-field-full">
+                            <label for="a5">A5 · {{ red_flags["a5"] }}</label>
+                            <select id="a5" name="a5" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field form-field-full">
+                            <label for="a6">A6 · {{ red_flags["a6"] }}</label>
+                            <select id="a6" name="a6" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field form-field-full">
+                            <label for="a7">A7 · {{ red_flags["a7"] }}</label>
+                            <select id="a7" name="a7" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field form-field-full">
+                            <label for="a8">A8 · {{ red_flags["a8"] }}</label>
+                            <select id="a8" name="a8" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field form-field-full">
+                            <label for="a9">A9 · {{ red_flags["a9"] }}</label>
+                            <select id="a9" name="a9" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field form-field-full">
+                            <label for="a10">A10 · {{ red_flags["a10"] }}</label>
+                            <select id="a10" name="a10" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field form-field-full">
+                            <label for="a11">A11 · {{ red_flags["a11"] }}</label>
+                            <select id="a11" name="a11" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option><option value="unknown">ไม่ทราบ</option></select>
+                        </div>
                     </div>
-                    <div class="form-field">
-                        <label for="depth"><span class="field-number">02</span> ความลึกของแผล</label>
-                        <select id="depth" name="depth" required>
-                            <option value="">เลือกระดับความลึก</option>
-                            <option value="superficial">ตื้น</option>
-                            <option value="partial">Partial thickness</option>
-                            <option value="deep">ลึก</option>
-                        </select>
+                </section>
+
+                <section class="wizard-step" data-step="1" aria-labelledby="patient-wound-heading" hidden>
+                    <h2 id="patient-wound-heading" class="step-heading">2. ข้อมูลผู้ป่วยและชนิดแผล</h2>
+                    <p class="step-intro">ข้อมูลโรคร่วม ยา และการแพ้ใช้ช่วยประเมินความเสี่ยงและตัดตัวเลือกที่อาจไม่เหมาะสม</p>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="age_group">ช่วงอายุ</label>
+                            <select id="age_group" name="age_group" data-required required><option value="">เลือกช่วงอายุ</option><option value="under_1">&lt;1 ปี</option><option value="1_12">1–12 ปี</option><option value="13_64">13–64 ปี</option><option value="65_plus">≥65 ปี</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="pregnancy">ตั้งครรภ์/ให้นมบุตร</label>
+                            <select id="pregnancy" name="pregnancy" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="thyroid_condition">โรคต่อมไทรอยด์</label>
+                            <select id="thyroid_condition" name="thyroid_condition" data-required required><option value="">เลือกคำตอบ</option><option value="yes">มี</option><option value="no">ไม่มี</option><option value="unknown">ไม่ทราบ</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="fragile_skin">ผิวบอบบาง/ฉีกขาดง่าย</label>
+                            <select id="fragile_skin" name="fragile_skin" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="self_care">ความสามารถดูแลตนเอง</label>
+                            <select id="self_care" name="self_care" data-required required><option value="">เลือกคำตอบ</option><option value="independent">ดูแลเองได้</option><option value="assistance">ต้องมีผู้ช่วย</option><option value="bedbound">ติดเตียง</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="wound_type">กลไก/ชนิดแผล</label>
+                            <select id="wound_type" name="wound_type" data-required required><option value="">เลือกชนิดแผล</option><option value="abrasion">แผลบาด/ถลอก</option><option value="laceration">แผลฉีกขาด</option><option value="skin_tear">ผิวหนังฉีก (skin tear)</option><option value="burn">แผลไหม้/น้ำร้อนลวก</option><option value="blister">ตุ่มพองจากเสียดสี</option><option value="pressure">แผลกดทับ</option><option value="leg_ulcer">แผลที่ขา</option><option value="foot_ulcer">แผลที่เท้า</option><option value="surgical">แผลผ่าตัด</option><option value="other">อื่น ๆ</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="duration">ระยะเวลาที่เป็นแผล</label>
+                            <select id="duration" name="duration" data-required required><option value="">เลือกระยะเวลา</option><option value="lt24h">&lt;24 ชั่วโมง</option><option value="1_7d">1–7 วัน</option><option value="1_4w">1–4 สัปดาห์</option><option value="gt4w">&gt;4 สัปดาห์</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="leg_profile">ลักษณะแผลที่ขา</label>
+                            <select id="leg_profile" name="leg_profile" data-required required><option value="">เลือกคำตอบ</option><option value="not_applicable">ไม่เกี่ยวข้อง</option><option value="venous">เข้าได้กับหลอดเลือดดำ</option><option value="arterial">เข้าได้กับหลอดเลือดแดง</option><option value="mixed">ลักษณะผสม</option><option value="uncertain">ไม่แน่ใจ</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="pressure_stage">ระยะแผลกดทับ</label>
+                            <select id="pressure_stage" name="pressure_stage" data-required required><option value="">เลือกคำตอบ</option><option value="not_applicable">ไม่เกี่ยวข้อง</option><option value="stage1">Stage 1</option><option value="stage2">Stage 2</option><option value="stage3">Stage 3</option><option value="stage4">Stage 4</option><option value="dtpi">DTPI</option><option value="unstageable">จัดระยะไม่ได้</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="burn_depth">ความลึกแผลไหม้</label>
+                            <select id="burn_depth" name="burn_depth" data-required required><option value="">เลือกคำตอบ</option><option value="not_applicable">ไม่เกี่ยวข้อง</option><option value="superficial">ผิวแดง ไม่มีตุ่ม</option><option value="superficial_partial">มีตุ่ม/ชมพูแดง เจ็บ</option><option value="deep_partial">สงสัย deep partial</option><option value="full_thickness">สงสัย full thickness</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="skin_tear_type">ชนิดผิวหนังฉีก</label>
+                            <select id="skin_tear_type" name="skin_tear_type" data-required required><option value="">เลือกคำตอบ</option><option value="not_applicable">ไม่เกี่ยวข้อง</option><option value="type1">ISTAP Type 1</option><option value="type2">ISTAP Type 2</option><option value="type3">ISTAP Type 3</option></select>
+                        </div>
+                        <fieldset class="choice-field form-field-full">
+                            <legend>โรคร่วม (เลือกได้หลายข้อ)</legend>
+                            <div class="choice-list">
+                                <label><input type="checkbox" name="comorbidities" value="diabetes"> เบาหวาน</label>
+                                <label><input type="checkbox" name="comorbidities" value="pad"> PAD</label>
+                                <label><input type="checkbox" name="comorbidities" value="venous_disease"> หลอดเลือดดำเสื่อม</label>
+                                <label><input type="checkbox" name="comorbidities" value="heart_failure"> หัวใจล้มเหลว/บวม</label>
+                                <label><input type="checkbox" name="comorbidities" value="kidney_disease"> โรคไต</label>
+                                <label><input type="checkbox" name="comorbidities" value="liver_disease"> โรคตับ</label>
+                                <label><input type="checkbox" name="comorbidities" value="immunosuppressed"> ภูมิคุ้มกันบกพร่อง</label>
+                                <label><input type="checkbox" name="comorbidities" value="chronic_dermatitis"> ผิวหนังอักเสบเรื้อรัง</label>
+                            </div>
+                        </fieldset>
+                        <fieldset class="choice-field form-field-full">
+                            <legend>ยาที่อาจมีผลต่อการหายของแผล (เลือกได้หลายข้อ)</legend>
+                            <div class="choice-list">
+                                <label><input type="checkbox" name="medications" value="steroid"> สเตียรอยด์</label>
+                                <label><input type="checkbox" name="medications" value="anticoagulant"> ยาต้านการแข็งตัวของเลือด</label>
+                                <label><input type="checkbox" name="medications" value="antiplatelet"> ยาต้านเกล็ดเลือด</label>
+                                <label><input type="checkbox" name="medications" value="chemotherapy"> เคมีบำบัด</label>
+                                <label><input type="checkbox" name="medications" value="long_term_nsaid"> NSAIDs ระยะยาว</label>
+                            </div>
+                        </fieldset>
+                        <fieldset class="choice-field form-field-full">
+                            <legend>ประวัติแพ้ผลิตภัณฑ์/วัสดุ (เลือกได้หลายข้อ)</legend>
+                            <div class="choice-list">
+                                <label><input type="checkbox" name="allergies" value="adhesive"> กาว/พลาสเตอร์</label>
+                                <label><input type="checkbox" name="allergies" value="silicone"> ซิลิโคน</label>
+                                <label><input type="checkbox" name="allergies" value="iodine"> ไอโอดีน</label>
+                                <label><input type="checkbox" name="allergies" value="silver"> เงิน</label>
+                                <label><input type="checkbox" name="allergies" value="honey"> น้ำผึ้ง</label>
+                                <label><input type="checkbox" name="allergies" value="latex"> ลาเทกซ์</label>
+                                <label><input type="checkbox" name="allergies" value="alginate"> อัลจิเนต/สาหร่าย</label>
+                            </div>
+                        </fieldset>
                     </div>
-                    <div class="form-field">
-                        <label for="exudate"><span class="field-number">03</span> ปริมาณสารคัดหลั่ง</label>
-                        <select id="exudate" name="exudate" required>
-                            <option value="">เลือกปริมาณสารคัดหลั่ง</option>
-                            <option value="none">ไม่มี</option>
-                            <option value="low">น้อย</option>
-                            <option value="moderate">ปานกลาง</option>
-                            <option value="high">มาก</option>
-                        </select>
+                </section>
+
+                <section class="wizard-step" data-step="2" aria-labelledby="time-heading" hidden>
+                    <h2 id="time-heading" class="step-heading">3. ประเมินลักษณะแผลตามกรอบ TIME</h2>
+                    <p class="step-intro">เลือกข้อมูลที่สังเกตได้ หากมีสัญญาณติดเชื้อ ระบบจะแนะนำให้ส่งต่อแทนการเลือกยาปิดแผลต้านจุลชีพ</p>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="tissue">เนื้อเยื่อส่วนใหญ่ในแผล</label>
+                            <select id="tissue" name="tissue" data-required required><option value="">เลือกลักษณะเนื้อเยื่อ</option><option value="granulation">แดงสด (granulation)</option><option value="epithelial">ชมพู/ผิวใหม่ (epithelial)</option><option value="slough">เหลือง/ขาวเหนียว (slough)</option><option value="eschar">ดำ/น้ำตาลแห้งแข็ง (eschar)</option><option value="mixed">ผสม</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="depth">ความลึก</label>
+                            <select id="depth" name="depth" data-required required><option value="">เลือกระดับความลึก</option><option value="superficial">ตื้น</option><option value="moderate">ลึกปานกลาง</option><option value="cavity">เป็นโพรง/ร่อง</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="exudate">ปริมาณสารคัดหลั่ง</label>
+                            <select id="exudate" name="exudate" data-required required><option value="">เลือกปริมาณ</option><option value="dry">แห้ง</option><option value="low">น้อย/ชื้น</option><option value="moderate">ปานกลาง</option><option value="high">มาก</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="exudate_character">ลักษณะสารคัดหลั่ง</label>
+                            <select id="exudate_character" name="exudate_character" data-required required><option value="">เลือกคำตอบ</option><option value="clear">ใส/เหลืองจาง</option><option value="cloudy">ขุ่น/เหลืองข้น</option><option value="green">เขียว</option><option value="bloody">มีเลือดปน</option><option value="unknown">ไม่ทราบ</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="wound_edge">ขอบแผล/ผิวรอบแผล</label>
+                            <select id="wound_edge" name="wound_edge" data-required required><option value="">เลือกลักษณะ</option><option value="advancing">ขอบมีผิวใหม่</option><option value="rolled">ขอบม้วน/แข็ง/ไม่เคลื่อน</option><option value="macerated">ผิวรอบแผลเปื่อยยุ่ย</option><option value="irritated">ผิวแดง/ลอก/ผื่น</option><option value="normal">ปกติ</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="wound_size">ขนาดแผล</label>
+                            <select id="wound_size" name="wound_size" data-required required><option value="">เลือกขนาด</option><option value="small">เล็ก (&lt;2×2 ซม.)</option><option value="medium">ปานกลาง (2–5 ซม.)</option><option value="large">ใหญ่ (&gt;5 ซม.)</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="pain">ระดับความเจ็บปวด (0–10)</label>
+                            <select id="pain" name="pain" data-required required><option value="">เลือกช่วงคะแนน</option><option value="0_3">0–3</option><option value="4_6">4–6</option><option value="7_10">7–10</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="location">ตำแหน่งแผล</label>
+                            <select id="location" name="location" data-required required><option value="">เลือกตำแหน่ง</option><option value="face_head">ใบหน้า/ศีรษะ</option><option value="joint">ข้อ/ข้อพับ</option><option value="heel_bony">ส้นเท้า/ปุ่มกระดูก</option><option value="extremity">แขนขาทั่วไป</option><option value="torso">ลำตัว</option><option value="weight_bearing_foot">ฝ่าเท้ารับน้ำหนัก</option><option value="contaminated">ใกล้ทวาร/ปัสสาวะ</option></select>
+                        </div>
+                        <fieldset class="choice-field form-field-full">
+                            <legend>สัญญาณติดเชื้อเฉพาะที่ (เลือกได้หลายข้อ)</legend>
+                            <div class="choice-list">
+                                <label><input type="checkbox" name="infection_signs" value="redness"> แดง/ร้อน/บวมรอบแผล</label>
+                                <label><input type="checkbox" name="infection_signs" value="pus"> หนอง</label>
+                                <label><input type="checkbox" name="infection_signs" value="increasing_odor"> กลิ่นเหม็นเพิ่มขึ้น</label>
+                                <label><input type="checkbox" name="infection_signs" value="increasing_pain"> ปวดเพิ่มหรือเกิดใหม่</label>
+                                <label><input type="checkbox" name="infection_signs" value="friable_granulation"> เนื้อแดงเปราะ/เลือดออกง่าย</label>
+                                <label><input type="checkbox" name="infection_signs" value="delayed_healing"> แผลไม่หายหรือขยาย</label>
+                            </div>
+                        </fieldset>
                     </div>
-                    <div class="form-field">
-                        <label for="wound_bed"><span class="field-number">04</span> ลักษณะเนื้อเยื่อบริเวณแผล</label>
-                        <select id="wound_bed" name="wound_bed" required>
-                            <option value="">เลือกลักษณะเนื้อเยื่อ</option>
-                            <option value="granulation">Granulation tissue</option>
-                            <option value="slough">Slough</option>
-                            <option value="necrotic">Necrotic tissue</option>
-                            <option value="epithelial">Epithelial tissue</option>
-                        </select>
+                </section>
+
+                <section class="wizard-step" data-step="3" aria-labelledby="context-heading" hidden>
+                    <h2 id="context-heading" class="step-heading">4. บริบทการใช้งาน</h2>
+                    <p class="step-intro">ข้อมูลนี้ช่วยปรับคำแนะนำให้เหมาะกับการดูแลต่อเนื่อง ไม่ได้เปลี่ยนข้อบ่งชี้ให้ส่งต่อ</p>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="clinician_plan">มีแผนรักษาจากแพทย์/แผน compression หรือ offloading แล้วหรือไม่</label>
+                            <select id="clinician_plan" name="clinician_plan" data-required required><option value="">เลือกคำตอบ</option><option value="yes">มี</option><option value="no">ไม่มี</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="waterproof">ต้องการกันน้ำขณะอาบน้ำหรือไม่</label>
+                            <select id="waterproof" name="waterproof" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ต้องการ</option><option value="no">ไม่จำเป็น</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="dressing_frequency">ความถี่เปลี่ยนแผลที่ทำได้</label>
+                            <select id="dressing_frequency" name="dressing_frequency" data-required required><option value="">เลือกความถี่</option><option value="daily">ทุกวัน</option><option value="2_3_days">ทุก 2–3 วัน</option><option value="weekly">สัปดาห์ละครั้ง</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="budget">งบประมาณ</label>
+                            <select id="budget" name="budget" data-required required><option value="">เลือกงบประมาณ</option><option value="low">ประหยัด</option><option value="medium">ปานกลาง</option><option value="unlimited">ไม่จำกัด</option></select>
+                        </div>
+                        <fieldset class="choice-field form-field-full">
+                            <legend>สิ่งที่ทำกับแผลแล้ว (เลือกได้หลายข้อ)</legend>
+                            <div class="choice-list">
+                                <label><input type="checkbox" name="previous_care" value="not_treated"> ยังไม่เคยทำแผล</label>
+                                <label><input type="checkbox" name="previous_care" value="cleaned"> ล้างด้วย NSS/น้ำสะอาด</label>
+                                <label><input type="checkbox" name="previous_care" value="antiseptic"> ใช้น้ำยาฆ่าเชื้อ/ยาทา</label>
+                                <label><input type="checkbox" name="previous_care" value="existing_dressing"> ปิด dressing เดิม</label>
+                            </div>
+                        </fieldset>
                     </div>
-                    <div class="form-field">
-                        <label for="infection"><span class="field-number">05</span> สงสัยการติดเชื้อหรือไม่</label>
-                        <select id="infection" name="infection" required>
-                            <option value="">เลือกสถานะที่สังเกตได้</option>
-                            <option value="no">ไม่พบลักษณะสงสัยการติดเชื้อ</option>
-                            <option value="yes">สงสัยการติดเชื้อ</option>
-                        </select>
+                </section>
+
+                <div class="form-footer wizard-footer">
+                    <p>ข้อมูลใช้เพื่อสนับสนุนการประเมินเบื้องต้นเท่านั้น</p>
+                    <div class="wizard-actions">
+                        <button class="button button-secondary" type="button" id="previous-step" hidden>ย้อนกลับ</button>
+                        <button class="button button-primary" type="button" id="next-step">ถัดไป <span aria-hidden="true">→</span></button>
+                        <button class="button button-primary" type="submit" id="submit-assessment" hidden>ดูผลการประเมิน <span aria-hidden="true">→</span></button>
                     </div>
-                    <div class="form-field">
-                        <label for="periwound"><span class="field-number">06</span> สภาพผิวหนังรอบแผล</label>
-                        <select id="periwound" name="periwound" required>
-                            <option value="">เลือกสภาพผิวหนัง</option>
-                            <option value="normal">ปกติ</option>
-                            <option value="macerated">Maceration</option>
-                            <option value="dry">แห้ง</option>
-                            <option value="erythematous">แดง</option>
-                        </select>
-                    </div>
-                    <div class="form-field form-field-full">
-                        <label for="location"><span class="field-number">07</span> ตำแหน่งของแผล</label>
-                        <select id="location" name="location" required>
-                            <option value="">เลือกตำแหน่งของแผล</option>
-                            <option value="face">ใบหน้า</option>
-                            <option value="trunk">ลำตัว</option>
-                            <option value="upper_limb">แขน</option>
-                            <option value="lower_limb">ขา</option>
-                            <option value="other">อื่น ๆ</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-footer">
-                    <p>ข้อมูลนี้ใช้เพื่อประกอบการประเมินเบื้องต้นเท่านั้น</p>
-                    <button class="button button-primary" type="submit">ดูผลการประเมิน <span aria-hidden="true">→</span></button>
                 </div>
             </form>
         </section>
     </main>
-    <script src="/static/script.js"></script>
+    <script src="/static/script.js?v={{ static_version }}"></script>
 </body>
 </html>
