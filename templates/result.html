@@ -17,158 +17,102 @@
     </header>
     <main class="page-main result-main">
         <a class="back-link" href="/assessment"><span aria-hidden="true">←</span> กลับไปประเมิน</a>
-        <section class="result-heading">
-            <span class="result-check {% if result.triage.level != 'care' %}result-alert{% endif %}" aria-hidden="true">{% if result.triage.level == 'care' %}✓{% else %}!{% endif %}</span>
-            <div>
-                <p class="eyebrow">ASSESSMENT SUMMARY</p>
-                <h1>ผลการคัดกรองและประเมินแผล</h1>
-                <p>ชนิดแผล: <strong>{{ result.wound_type }}</strong></p>
-            </div>
-        </section>
-
-        <section class="triage-panel {% if result.triage.level == 'emergency' %}triage-emergency{% elif result.triage.level == 'refer' %}triage-refer{% endif %}" aria-labelledby="triage-title">
-            <p class="eyebrow">TRIAGE · {{ result.triage.timeframe }}</p>
-            <h2 id="triage-title">{{ result.triage.label }}</h2>
-            <p>ระดับความรุนแรง: <strong>{{ result.severity.label }}</strong> · สถานะติดเชื้อ: <strong>{{ result.infection_status }}</strong></p>
-            {% if result.referrals %}
-            <ul class="referral-list">
-                {% for referral in result.referrals %}
-                <li><strong>{{ referral.code }}</strong> · {{ referral.reason }} <span>{{ referral.timeframe }}</span></li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <p class="triage-note">ไม่พบสัญญาณส่งต่อจากคำตอบที่กรอก โปรดยืนยันข้อมูลและใช้วิจารณญาณวิชาชีพ</p>
-            {% endif %}
-        </section>
-
-        {% if result.warnings %}
-        <section class="warning result-panel" aria-labelledby="warning-title">
-            <div class="panel-heading">
-                <span class="panel-icon warning-icon" aria-hidden="true">!</span>
-                <div><p class="eyebrow">PLEASE NOTE</p><h2 id="warning-title">ข้อควรระวังและข้อจำกัด</h2></div>
-            </div>
-            <ul>
-                {% for warning in result.warnings %}
-                <li>{{ warning }}</li>
-                {% endfor %}
-            </ul>
-        </section>
-        {% endif %}
-
-        <section class="recommendation result-panel" aria-labelledby="recommendation-title">
+        <section class="result-panel recommendation" aria-labelledby="recommendation-title">
+            {% if result.triage.level == "care" %}
             <div class="panel-heading">
                 <span class="panel-icon recommendation-icon" aria-hidden="true">✓</span>
-                <div><p class="eyebrow">DRESSING CLASS</p><h2 id="recommendation-title">ชนิดผลิตภัณฑ์ที่อาจพิจารณา</h2></div>
+                <div>
+                    <p class="eyebrow">DRESSING RECOMMENDATION</p>
+                    <h1 id="recommendation-title">ผลิตภัณฑ์ปิดแผลที่แนะนำ</h1>
+                </div>
             </div>
-            {% if result.recommendations %}
-            <p class="recommendation-intro">พิจารณาเลือกชนิดวัสดุให้เหมาะกับแผลและฉลากผลิตภัณฑ์ ไม่ใช่การสั่งใช้หรือการรับรองแบรนด์</p>
             <div class="product-list">
                 {% for product in result.recommendations %}
-                <article class="product-card">
-                    <h3>{{ loop.index }}. {{ product.name }}</h3>
-                    <p><strong>เหมาะสำหรับ:</strong> {{ product.use }}</p>
-                    <p><strong>ระยะเปลี่ยนโดยทั่วไป:</strong> {{ product.wear }}</p>
-                    <p><strong>ข้อควรระวัง:</strong> {{ product.caution }}</p>
-                    <p><strong>ราคา:</strong> {{ product.cost_note }}</p>
-                    {% if product.secondary %}<p><strong>หมายเหตุ:</strong> อาจต้องใช้แผ่นปิดทับ (secondary dressing)</p>{% endif %}
-                    <div class="brand-list">
-                        <strong>ตัวอย่างชื่อแบรนด์ในเอกสารแนบ (ยังไม่ยืนยันในไทย):</strong>
-                        <ul>
-                            {% for brand in product.brands %}
-                            <li>{{ brand }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <p class="verification-note">{{ product.verification }}</p>
+                <article class="product-card recommended-product">
+                    <h2>{{ loop.index }}. {{ product.name }}</h2>
                 </article>
                 {% endfor %}
             </div>
             {% else %}
-            <p>ไม่มีการแนะนำชนิดผลิตภัณฑ์ เนื่องจากควรส่งต่อ/ปรึกษาแพทย์ก่อน หรือข้อมูลไม่ผ่านตัวกรองความปลอดภัย</p>
+            <div class="panel-heading">
+                <span class="panel-icon warning-icon" aria-hidden="true">!</span>
+                <div>
+                    <p class="eyebrow">REFERRAL REQUIRED</p>
+                    <h1 id="recommendation-title">ส่งต่อแพทย์</h1>
+                </div>
+            </div>
+            <p>ไม่มีการแนะนำผลิตภัณฑ์ เนื่องจากเข้าเกณฑ์ส่งต่อ</p>
+            {% endif %}
+            <button class="button button-secondary" type="button" data-open-details>
+                {% if result.triage.level == "care" %}ดูเหตุผลและคำแนะนำเพิ่มเติม{% else %}ดูเหตุผลการส่งต่อ{% endif %}
+            </button>
+            {% if result.triage.level == "refer" %}
+            <button class="button button-primary" type="button" data-print-referral>พิมพ์ใบส่งต่อ</button>
             {% endif %}
         </section>
+        <a class="button button-primary" href="/assessment">เริ่มประเมินใหม่ <span aria-hidden="true">↗</span></a>
+    </main>
 
-        <details class="reason-panel restricted-products">
-            <summary><p class="eyebrow">CLINICIAN-LED ONLY</p><h2>ชนิดผลิตภัณฑ์ที่ระบบไม่แนะนำให้เลือกใช้เอง</h2></summary>
-            <p>รายการต่อไปนี้ต้องยึดตามข้อบ่งใช้ แผนแพทย์ และการประเมินเฉพาะทาง แบรนด์เป็นเพียงตัวอย่างในเอกสารแนบ ยังไม่ยืนยันการจำหน่าย/ทะเบียนในไทย</p>
-            <div class="product-list">
-                {% for product in result.restricted_products %}
-                <article class="product-card">
-                    <h3>{{ product.name }}</h3>
-                    <p><strong>ใช้เมื่อ:</strong> {{ product.use }}</p>
-                    <p><strong>ข้อควรระวัง:</strong> {{ product.caution }}</p>
-                    <div class="brand-list"><strong>ตัวอย่างแบรนด์ (ยังไม่ยืนยัน):</strong>
-                        <ul>{% for brand in product.brands %}<li>{{ brand }}</li>{% endfor %}</ul>
-                    </div>
-                </article>
-                {% endfor %}
+    <dialog class="details-dialog" id="details-dialog" aria-labelledby="details-title">
+        <div class="dialog-header">
+            <div>
+                <p class="eyebrow">ASSESSMENT DETAILS</p>
+                <h2 id="details-title">{% if result.triage.level == "care" %}เหตุผลและคำแนะนำ{% else %}ใบส่งต่อและเหตุผล{% endif %}</h2>
             </div>
-        </details>
-
-        {% if result.reasons %}
-        <section class="reason-panel">
-            <p class="eyebrow">WHY THIS SUGGESTION</p>
-            <h2>เหตุผลประกอบคำแนะนำ</h2>
-            <ul>{% for reason in result.reasons %}<li>{{ reason }}</li>{% endfor %}</ul>
-        </section>
-        {% endif %}
-
-        {% if result.excluded_products %}
-        <section class="reason-panel exclusion-panel">
-            <p class="eyebrow">SAFETY FILTER</p>
-            <h2>ตัวเลือกที่ถูกตัดออก</h2>
-            <ul>
-                {% for item in result.excluded_products %}
-                <li><strong>{{ item.name }}:</strong> {{ item.reason }}</li>
-                {% endfor %}
-            </ul>
-        </section>
-        {% endif %}
-
-        <section class="result-panel recommendation" aria-labelledby="advice-title">
-            <div class="panel-heading">
-                <span class="panel-icon recommendation-icon" aria-hidden="true">+</span>
-                <div><p class="eyebrow">PATIENT ADVICE</p><h2 id="advice-title">คำแนะนำเบื้องต้น</h2></div>
-            </div>
-            <ul>{% for item in result.advice %}<li>{{ item }}</li>{% endfor %}</ul>
-        </section>
-
-        <section class="result-panel follow-up-panel" aria-labelledby="follow-up-title">
-            <div class="panel-heading">
-                <span class="panel-icon follow-up-icon" aria-hidden="true">↻</span>
-                <div><p class="eyebrow">FOLLOW-UP</p><h2 id="follow-up-title">การติดตามและอาการที่ต้องระวัง</h2></div>
-            </div>
-            <ul>{% for item in result.follow_up %}<li>{{ item }}</li>{% endfor %}</ul>
-        </section>
-
-        <section class="data-panel">
-            <div class="section-heading">
-                <div><p class="eyebrow">WOUND DETAILS</p><h2>ข้อมูลที่ใช้ประเมิน</h2></div>
-                <a href="/assessment" class="edit-link">แก้ไขข้อมูล <span aria-hidden="true">→</span></a>
-            </div>
+            <button class="dialog-close" type="button" data-close-details aria-label="ปิด">×</button>
+        </div>
+        {% if result.triage.level == "care" %}
+        <section>
+            <h3>สรุปผลประเมิน</h3>
+            <p>ผ่านการคัดกรอง Red Flag และเกณฑ์ดูแลในร้านยา</p>
             <dl class="assessment-details">
                 {% for item in result.assessment %}
                 <div class="detail-item"><dt>{{ item.label }}</dt><dd>{{ item.value }}</dd></div>
                 {% endfor %}
             </dl>
-            <div class="time-profile">
-                <h3>TIME profile</h3>
-                <ul>
-                    {% for key, value in result.time_profile.items() %}
-                    <li><strong>{{ key|capitalize }}:</strong> {{ value }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </section>
-
-        <section class="reason-panel references-panel">
-            <p class="eyebrow">REFERENCE SOURCES</p>
-            <h2>แนวทางอ้างอิงในเอกสารต้นทาง</h2>
+            <h3>TIME profile</h3>
+            <ul>{% for key, value in result.time_profile.items() %}<li><strong>{{ key|capitalize }}:</strong> {{ value }}</li>{% endfor %}</ul>
+            <h3>เหตุผลที่เลือกผลิตภัณฑ์</h3>
+            <ul>{% for reason in result.reasons %}<li>{{ reason }}</li>{% endfor %}</ul>
+            {% for product in result.recommendations %}
+            <article class="product-detail">
+                <h4>{{ product.name }}</h4>
+                <p><strong>เหมาะสำหรับ:</strong> {{ product.use }}</p>
+                <p><strong>ระยะเปลี่ยน:</strong> {{ product.wear }}</p>
+                <p><strong>ข้อควรระวัง:</strong> {{ product.caution }}</p>
+                {% if product.secondary %}<p>ใช้ร่วมกับ secondary dressing ตามความเหมาะสม</p>{% endif %}
+            </article>
+            {% endfor %}
+            {% if result.excluded_products %}
+            <h3>ตัวเลือกที่ถูกตัดออก</h3>
+            <ul>{% for item in result.excluded_products %}<li><strong>{{ item.name }}:</strong> {{ item.reason }}</li>{% endfor %}</ul>
+            {% endif %}
+            <h3>คำแนะนำการดูแลแผล</h3>
+            <ul>{% for item in result.advice %}<li>{{ item }}</li>{% endfor %}</ul>
+            <h3>แผนติดตาม</h3>
+            <ul>{% for item in result.follow_up %}<li>{{ item }}</li>{% endfor %}</ul>
+            <h3>ข้อจำกัด</h3>
+            <p>{{ result.clinical_status }}</p>
+            <ul>{% for item in result.warnings %}<li>{{ item }}</li>{% endfor %}</ul>
+            <h3>แหล่งอ้างอิง</h3>
             <ul>{% for reference in result.references %}<li>{{ reference }}</li>{% endfor %}</ul>
         </section>
-
-        <p class="disclaimer result-disclaimer">{{ result.clinical_status }} ผลลัพธ์นี้เป็นข้อมูลสนับสนุนเบื้องต้น ไม่ทดแทนการวินิจฉัยหรือคำแนะนำจากบุคลากรทางการแพทย์ และห้ามใช้แทนการส่งต่อ</p>
-        <a class="button button-secondary" href="/assessment">เริ่มประเมินใหม่ <span aria-hidden="true">↗</span></a>
-    </main>
+        {% else %}
+        <section class="referral-print">
+            <h3>เหตุผลการส่งต่อแพทย์</h3>
+            <ul>{% for referral in result.referrals %}<li><strong>{{ referral.code }}:</strong> {{ referral.reason }}</li>{% endfor %}</ul>
+            <h3>คำแนะนำระหว่างรอพบแพทย์</h3>
+            <ul>{% for item in result.advice %}<li>{{ item }}</li>{% endfor %}</ul>
+            <p>{{ result.clinical_status }}</p>
+            <h3>แหล่งอ้างอิง</h3>
+            <ul>{% for reference in result.references %}<li>{{ reference }}</li>{% endfor %}</ul>
+        </section>
+        {% endif %}
+        <div class="dialog-actions">
+            {% if result.triage.level == "refer" %}<button class="button button-primary" type="button" data-print-referral>พิมพ์ใบส่งต่อ</button>{% endif %}
+            <button class="button button-secondary" type="button" data-close-details>ปิด</button>
+        </div>
+    </dialog>
+    <script src="/static/script.js?v={{ static_version }}"></script>
 </body>
 </html>

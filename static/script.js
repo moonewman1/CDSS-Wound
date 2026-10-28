@@ -36,6 +36,13 @@ if (form) {
         if (!form.reportValidity()) {
             return;
         }
+        if (activeStep === 0) {
+            const hasReferralFlag = steps[activeStep].querySelectorAll('select[name="a1"], select[name="a2"], select[name="a3"], select[name="a4"], select[name="a5"], select[name="a6"], select[name="a7"], select[name="a8"], select[name="a9"], select[name="a10"], select[name="a11"]');
+            if (Array.from(hasReferralFlag).some((field) => field.value === "yes" || field.value === "unable")) {
+                form.submit();
+                return;
+            }
+        }
         showStep(activeStep + 1);
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
@@ -46,4 +53,31 @@ if (form) {
     });
 
     showStep(0);
+}
+
+const detailsDialog = document.querySelector("#details-dialog");
+
+if (detailsDialog instanceof HTMLDialogElement) {
+    document.querySelectorAll("[data-open-details]").forEach((button) => {
+        button.addEventListener("click", () => detailsDialog.showModal());
+    });
+
+    document.querySelectorAll("[data-close-details]").forEach((button) => {
+        button.addEventListener("click", () => detailsDialog.close());
+    });
+
+    detailsDialog.addEventListener("click", (event) => {
+        if (event.target === detailsDialog) {
+            detailsDialog.close();
+        }
+    });
+
+    document.querySelectorAll("[data-print-referral]").forEach((button) => {
+        button.addEventListener("click", () => {
+            if (!detailsDialog.open) {
+                detailsDialog.showModal();
+            }
+            window.print();
+        });
+    });
 }

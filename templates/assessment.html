@@ -73,7 +73,7 @@
                         </div>
                         <div class="form-field form-field-full">
                             <label for="a11">A11 · {{ red_flags["a11"] }}</label>
-                            <select id="a11" name="a11" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option><option value="unknown">ไม่ทราบ</option></select>
+                            <select id="a11" name="a11" data-required required><option value="">เลือกคำตอบ</option><option value="yes">ใช่</option><option value="no">ไม่ใช่</option></select>
                         </div>
                     </div>
                 </section>
@@ -108,7 +108,7 @@
                         </div>
                         <div class="form-field">
                             <label for="duration">ระยะเวลาที่เป็นแผล</label>
-                            <select id="duration" name="duration" data-required required><option value="">เลือกระยะเวลา</option><option value="lt24h">&lt;24 ชั่วโมง</option><option value="1_7d">1–7 วัน</option><option value="1_4w">1–4 สัปดาห์</option><option value="gt4w">&gt;4 สัปดาห์</option></select>
+                            <select id="duration" name="duration" data-required required><option value="">เลือกระยะเวลา</option><option value="lt24h">&lt;24 ชั่วโมง</option><option value="1_7d">1–7 วัน</option><option value="1_3w">1–3 สัปดาห์</option><option value="4w">4 สัปดาห์</option><option value="gt4w">&gt;4 สัปดาห์</option></select>
                         </div>
                         <div class="form-field">
                             <label for="leg_profile">ลักษณะแผลที่ขา</label>
@@ -150,6 +150,14 @@
                             </div>
                         </fieldset>
                         <fieldset class="choice-field form-field-full">
+                            <legend>ภาวะที่มีผลต่อการหายของแผล (เลือกได้หลายข้อ)</legend>
+                            <div class="choice-list">
+                                <label><input type="checkbox" name="healing_factors" value="smoking"> สูบบุหรี่</label>
+                                <label><input type="checkbox" name="healing_factors" value="malnutrition"> ขาดสารอาหาร</label>
+                                <label><input type="checkbox" name="healing_factors" value="heavy_alcohol"> ดื่มสุรามาก</label>
+                            </div>
+                        </fieldset>
+                        <fieldset class="choice-field form-field-full">
                             <legend>ประวัติแพ้ผลิตภัณฑ์/วัสดุ (เลือกได้หลายข้อ)</legend>
                             <div class="choice-list">
                                 <label><input type="checkbox" name="allergies" value="adhesive"> กาว/พลาสเตอร์</label>
@@ -174,7 +182,7 @@
                         </div>
                         <div class="form-field">
                             <label for="depth">ความลึก</label>
-                            <select id="depth" name="depth" data-required required><option value="">เลือกระดับความลึก</option><option value="superficial">ตื้น</option><option value="moderate">ลึกปานกลาง</option><option value="cavity">เป็นโพรง/ร่อง</option></select>
+                            <select id="depth" name="depth" data-required required><option value="">เลือกระดับความลึก</option><option value="superficial">ตื้น</option><option value="moderate">ลึกปานกลาง</option><option value="cavity_shallow">โพรงตื้น</option><option value="cavity_deep">โพรงลึก/อุโมงค์/undermining</option></select>
                         </div>
                         <div class="form-field">
                             <label for="exudate">ปริมาณสารคัดหลั่ง</label>
@@ -198,19 +206,27 @@
                         </div>
                         <div class="form-field">
                             <label for="location">ตำแหน่งแผล</label>
-                            <select id="location" name="location" data-required required><option value="">เลือกตำแหน่ง</option><option value="face_head">ใบหน้า/ศีรษะ</option><option value="joint">ข้อ/ข้อพับ</option><option value="heel_bony">ส้นเท้า/ปุ่มกระดูก</option><option value="extremity">แขนขาทั่วไป</option><option value="torso">ลำตัว</option><option value="weight_bearing_foot">ฝ่าเท้ารับน้ำหนัก</option><option value="contaminated">ใกล้ทวาร/ปัสสาวะ</option></select>
+                            <select id="location" name="location" data-required required><option value="">เลือกตำแหน่ง</option><option value="face_head">ใบหน้า/ศีรษะ</option><option value="hand">มือ</option><option value="foot">เท้า</option><option value="joint">ข้อ/ข้อพับ</option><option value="heel_bony">ส้นเท้า/ปุ่มกระดูก</option><option value="extremity">แขนขาทั่วไป</option><option value="torso">ลำตัว</option><option value="genital">อวัยวะเพศ</option><option value="perianal">ใกล้ทวารหนัก</option></select>
                         </div>
                         <fieldset class="choice-field form-field-full">
                             <legend>สัญญาณติดเชื้อเฉพาะที่ (เลือกได้หลายข้อ)</legend>
                             <div class="choice-list">
                                 <label><input type="checkbox" name="infection_signs" value="redness"> แดง/ร้อน/บวมรอบแผล</label>
-                                <label><input type="checkbox" name="infection_signs" value="pus"> หนอง</label>
-                                <label><input type="checkbox" name="infection_signs" value="increasing_odor"> กลิ่นเหม็นเพิ่มขึ้น</label>
                                 <label><input type="checkbox" name="infection_signs" value="increasing_pain"> ปวดเพิ่มหรือเกิดใหม่</label>
+                                <label><input type="checkbox" name="infection_signs" value="increasing_exudate"> สารคัดหลั่งเพิ่ม</label>
+                                <label><input type="checkbox" name="infection_signs" value="increasing_odor"> กลิ่นเหม็นเพิ่มขึ้น</label>
                                 <label><input type="checkbox" name="infection_signs" value="friable_granulation"> เนื้อแดงเปราะ/เลือดออกง่าย</label>
                                 <label><input type="checkbox" name="infection_signs" value="delayed_healing"> แผลไม่หายหรือขยาย</label>
                             </div>
                         </fieldset>
+                        <div class="form-field">
+                            <label for="erythema_extent">ระยะรอยแดงจากขอบแผล (วัดด้วยไม้บรรทัด)</label>
+                            <select id="erythema_extent" name="erythema_extent" data-required required><option value="">เลือกระยะ</option><option value="none">ไม่มีรอยแดง</option><option value="up_to_2cm">ไม่เกิน 2 ซม.</option><option value="over_2cm">มากกว่า 2 ซม.</option></select>
+                        </div>
+                        <div class="form-field">
+                            <label for="purulence">มีหนองมากหรือฝีหรือไม่</label>
+                            <select id="purulence" name="purulence" data-required required><option value="">เลือกคำตอบ</option><option value="yes">มี</option><option value="no">ไม่มี</option></select>
+                        </div>
                     </div>
                 </section>
 

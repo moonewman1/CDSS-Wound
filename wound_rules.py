@@ -3,17 +3,22 @@ from pathlib import Path
 
 
 RED_FLAG_QUESTIONS = {
-    "a1": "เลือดออกไม่หยุดหลังกดต่อเนื่อง 10 นาที",
-    "a2": "แผลลึกถึงชั้นไขมัน/กล้ามเนื้อ/เอ็น/กระดูก หรือประเมินความลึกไม่ได้",
-    "a3": "ถูกกัด ถูกแทง มีสิ่งแปลกปลอม หรือมีสิ่งสกปรกที่ล้างออกไม่ได้",
-    "a4": "ขอบแผลอ้า/ลึก/อาจต้องเย็บ โดยเฉพาะบริเวณใบหน้าหรือข้อพับ",
-    "a5": "แผลไหม้ใหญ่กว่าฝ่ามือ อยู่ตำแหน่งสำคัญ เป็นแผลไฟฟ้า/สารเคมี หรือสงสัยแผลไหม้ลึก",
-    "a6": "มีไข้ หนาวสั่น ซึม สับสน ใจสั่น หรือความดันต่ำ",
-    "a7": "รอยแดงลาม เส้นแดง บวมร้อนมาก มีเสียงกรอบใต้ผิว หรือผิวม่วง/ดำ",
-    "a8": "มีแผลที่เท้าร่วมกับเบาหวาน หรือมีแผลที่เท้า/ขาร่วมกับ PAD",
-    "a9": "นิ้ว/เท้าซีด เย็น ดำ หรือปวดรุนแรงผิดสัดส่วน",
-    "a10": "แผลนานกว่า 4 สัปดาห์ไม่ดีขึ้น หรือกลับเป็นซ้ำที่เดิม",
-    "a11": "ไม่ทราบ/ไม่ครบประวัติวัคซีนบาดทะยักในแผลเสี่ยง",
+    "a1": "แผลมีเลือดออกไม่หยุดหลังกดห้ามเลือดต่อเนื่อง 10 นาที",
+    "a2": "แผลลึกถึงไขมัน/กล้ามเนื้อ/เส้นเอ็น/กระดูก หรือเห็นกระดูก/เอ็น",
+    "a3": "แผลถูกสัตว์/คนกัด แผลถูกแทง มีสิ่งแปลกปลอมฝังอยู่ หรือสกปรกมากล้างไม่ออก",
+    "a4": "ขอบแผลถ่างเกิน/ต้องเย็บ เช่น ยาว >1.5–2 ซม. ลึก ขอบไม่ชิด โดยเฉพาะใบหน้า/ข้อพับ",
+    "a5": "แผลไหม้ใหญ่กว่าฝ่ามือ อยู่ตำแหน่งหน้า/มือ/เท้า/อวัยวะเพศ/ข้อพับ/รอบวง เป็นแผลไฟฟ้า/สารเคมี สูดควัน หรือผิวขาว/ดำแข็งไม่เจ็บ",
+    "a6": "มีอาการทั้งตัว เช่น ไข้ หนาวสั่น ซึม สับสน ใจสั่น หรือความดันต่ำ",
+    "a7": "รอยแดงลามจากขอบแผล >2 ซม. เส้นแดงตามทางน้ำเหลือง บวมร้อนมาก มีเสียงกรอบใต้ผิว หรือผิวหนังม่วง/ดำ",
+    "a8": "มีแผลที่เท้าร่วมกับเบาหวาน หรือแผลที่เท้า/ขาร่วมกับโรคหลอดเลือดแดงส่วนปลาย (PAD)",
+    "a9": "ปลายนิ้ว/เท้าซีด เย็น ดำ หรือปวดรุนแรงผิดสัดส่วนกับแผล",
+    "a10": "เป็นแผลนานกว่า 4 สัปดาห์ไม่ดีขึ้น หรือกลับเป็นซ้ำที่เดิม",
+    "a11": "กลุ่มเสี่ยงสูง: เด็ก <1 ปี ตั้งครรภ์ ภูมิคุ้มกันบกพร่อง/เคมีบำบัด/สเตียรอยด์ขนาดสูง หรือใช้ยากันเลือดแข็ง",
+}
+
+RED_FLAG_CHOICES = {
+    code: ({"yes", "no", "unable"} if code == "a2" else {"yes", "no"})
+    for code in RED_FLAG_QUESTIONS
 }
 
 ASSESSMENT_CHOICES = {
@@ -26,21 +31,23 @@ ASSESSMENT_CHOICES = {
         "abrasion", "laceration", "skin_tear", "burn", "blister",
         "pressure", "leg_ulcer", "foot_ulcer", "surgical", "other",
     },
-    "duration": {"lt24h", "1_7d", "1_4w", "gt4w"},
+    "duration": {"lt24h", "1_7d", "1_3w", "4w", "gt4w"},
     "leg_profile": {"not_applicable", "venous", "arterial", "mixed", "uncertain"},
     "pressure_stage": {"not_applicable", "stage1", "stage2", "stage3", "stage4", "dtpi", "unstageable"},
     "burn_depth": {"not_applicable", "superficial", "superficial_partial", "deep_partial", "full_thickness"},
     "skin_tear_type": {"not_applicable", "type1", "type2", "type3"},
     "tissue": {"granulation", "epithelial", "slough", "eschar", "mixed"},
-    "depth": {"superficial", "moderate", "cavity"},
+    "depth": {"superficial", "moderate", "cavity_shallow", "cavity_deep"},
+    "erythema_extent": {"none", "up_to_2cm", "over_2cm"},
+    "purulence": {"yes", "no"},
     "exudate": {"dry", "low", "moderate", "high"},
     "exudate_character": {"clear", "cloudy", "green", "bloody", "unknown"},
     "wound_edge": {"advancing", "rolled", "macerated", "irritated", "normal"},
     "wound_size": {"small", "medium", "large"},
     "pain": {"0_3", "4_6", "7_10"},
     "location": {
-        "face_head", "joint", "heel_bony", "extremity", "torso",
-        "weight_bearing_foot", "contaminated",
+        "face_head", "hand", "foot", "joint", "heel_bony", "extremity",
+        "torso", "genital", "perianal", "weight_bearing_foot", "contaminated",
     },
     "clinician_plan": {"yes", "no"},
     "waterproof": {"yes", "no"},
@@ -53,9 +60,13 @@ MULTI_SELECT_CHOICES = {
         "diabetes", "pad", "venous_disease", "heart_failure", "kidney_disease",
         "liver_disease", "immunosuppressed", "chronic_dermatitis",
     },
+    "healing_factors": {"smoking", "malnutrition", "heavy_alcohol"},
     "medications": {"steroid", "anticoagulant", "antiplatelet", "chemotherapy", "long_term_nsaid"},
     "allergies": {"adhesive", "silicone", "iodine", "silver", "honey", "latex", "alginate"},
-    "infection_signs": {"redness", "pus", "increasing_odor", "increasing_pain", "friable_granulation", "delayed_healing"},
+    "infection_signs": {
+        "redness", "increasing_pain", "increasing_exudate", "increasing_odor",
+        "friable_granulation", "delayed_healing",
+    },
     "previous_care": {"not_treated", "cleaned", "antiseptic", "existing_dressing"},
 }
 
@@ -70,7 +81,13 @@ CHOICE_LABELS = {
         "burn": "แผลไหม้/น้ำร้อนลวก", "blister": "ตุ่มพองจากเสียดสี", "pressure": "แผลกดทับ",
         "leg_ulcer": "แผลที่ขา", "foot_ulcer": "แผลที่เท้า", "surgical": "แผลผ่าตัด", "other": "อื่น ๆ",
     },
-    "duration": {"lt24h": "<24 ชั่วโมง", "1_7d": "1–7 วัน", "1_4w": "1–4 สัปดาห์", "gt4w": ">4 สัปดาห์"},
+    "duration": {
+        "lt24h": "<24 ชั่วโมง",
+        "1_7d": "1–7 วัน",
+        "1_3w": "1–3 สัปดาห์",
+        "4w": "4 สัปดาห์",
+        "gt4w": ">4 สัปดาห์",
+    },
     "leg_profile": {
         "not_applicable": "ไม่เกี่ยวข้อง", "venous": "เข้าได้กับแผลหลอดเลือดดำ",
         "arterial": "เข้าได้กับแผลหลอดเลือดแดง", "mixed": "ลักษณะผสม", "uncertain": "ไม่แน่ใจ",
@@ -91,7 +108,18 @@ CHOICE_LABELS = {
         "granulation": "เนื้อแดง (granulation)", "epithelial": "ผิวใหม่ (epithelial)",
         "slough": "เนื้อเหลือง/ขาว (slough)", "eschar": "เนื้อตายแห้ง (eschar)", "mixed": "ผสม",
     },
-    "depth": {"superficial": "ตื้น", "moderate": "ลึกปานกลาง", "cavity": "โพรง/ร่อง"},
+    "depth": {
+        "superficial": "ตื้น",
+        "moderate": "ลึกปานกลาง",
+        "cavity_shallow": "โพรงตื้น",
+        "cavity_deep": "โพรงลึก/อุโมงค์/undermining",
+    },
+    "erythema_extent": {
+        "none": "ไม่มีรอยแดง",
+        "up_to_2cm": "รอยแดงไม่เกิน 2 ซม.",
+        "over_2cm": "รอยแดงมากกว่า 2 ซม.",
+    },
+    "purulence": {"yes": "มีหนองมาก/ฝี", "no": "ไม่มีหนองมาก/ฝี"},
     "exudate": {"dry": "แห้ง", "low": "น้อย", "moderate": "ปานกลาง", "high": "มาก"},
     "exudate_character": {
         "clear": "ใส/เหลืองจาง", "cloudy": "ขุ่น/เหลืองข้น", "green": "เขียว",
@@ -104,8 +132,10 @@ CHOICE_LABELS = {
     "wound_size": {"small": "เล็ก (<2×2 ซม.)", "medium": "ปานกลาง (2–5 ซม.)", "large": "ใหญ่ (>5 ซม.)"},
     "pain": {"0_3": "0–3", "4_6": "4–6", "7_10": "7–10"},
     "location": {
-        "face_head": "ใบหน้า/ศีรษะ", "joint": "ข้อ/ข้อพับ", "heel_bony": "ส้นเท้า/ปุ่มกระดูก",
+        "face_head": "ใบหน้า/ศีรษะ", "hand": "มือ", "foot": "เท้า",
+        "joint": "ข้อ/ข้อพับ", "heel_bony": "ส้นเท้า/ปุ่มกระดูก",
         "extremity": "แขนขาทั่วไป", "torso": "ลำตัว", "weight_bearing_foot": "ฝ่าเท้ารับน้ำหนัก",
+        "genital": "อวัยวะเพศ", "perianal": "ใกล้ทวารหนัก",
         "contaminated": "ใกล้ทวาร/ปัสสาวะ (เสี่ยงปนเปื้อน)",
     },
     "clinician_plan": {"yes": "มีแผนจากแพทย์", "no": "ไม่มีแผนจากแพทย์"},
@@ -121,6 +151,11 @@ MULTI_SELECT_LABELS = {
         "kidney_disease": "โรคไต", "liver_disease": "โรคตับ",
         "immunosuppressed": "ภูมิคุ้มกันบกพร่อง", "chronic_dermatitis": "ผิวหนังอักเสบเรื้อรัง",
     },
+    "healing_factors": {
+        "smoking": "สูบบุหรี่",
+        "malnutrition": "ขาดสารอาหาร",
+        "heavy_alcohol": "ดื่มสุรามาก",
+    },
     "medications": {
         "steroid": "สเตียรอยด์", "anticoagulant": "ยาต้านการแข็งตัวของเลือด",
         "antiplatelet": "ยาต้านเกล็ดเลือด", "chemotherapy": "เคมีบำบัด",
@@ -131,7 +166,8 @@ MULTI_SELECT_LABELS = {
         "silver": "เงิน", "honey": "น้ำผึ้ง", "latex": "ลาเทกซ์", "alginate": "อัลจิเนต/สาหร่าย",
     },
     "infection_signs": {
-        "redness": "แดง/ร้อน/บวมรอบแผล", "pus": "หนอง",
+        "redness": "แดง/ร้อน/บวมรอบแผล",
+        "increasing_exudate": "สารคัดหลั่งเพิ่ม",
         "increasing_odor": "กลิ่นเหม็นเพิ่มขึ้น", "increasing_pain": "ปวดเพิ่มหรือเกิดใหม่",
         "friable_granulation": "เนื้อแดงเปราะ/เลือดออกง่าย", "delayed_healing": "แผลไม่หายหรือขยาย",
     },
@@ -144,6 +180,7 @@ MULTI_SELECT_LABELS = {
 FIELD_LABELS = {
     "age_group": "ช่วงอายุ",
     "comorbidities": "โรคร่วม",
+    "healing_factors": "ภาวะที่มีผลต่อการหายของแผล",
     "medications": "ยาที่ใช้อยู่",
     "allergies": "ประวัติแพ้",
     "pregnancy": "ตั้งครรภ์/ให้นมบุตร",
@@ -159,6 +196,8 @@ FIELD_LABELS = {
     "tissue": "เนื้อเยื่อในแผล",
     "depth": "ความลึก",
     "infection_signs": "สัญญาณติดเชื้อเฉพาะที่",
+    "erythema_extent": "ระยะรอยแดงจากขอบแผล",
+    "purulence": "หนองมาก/ฝี",
     "exudate": "ปริมาณสารคัดหลั่ง",
     "exudate_character": "ลักษณะสารคัดหลั่ง",
     "wound_edge": "ขอบแผล/ผิวรอบแผล",

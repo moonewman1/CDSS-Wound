@@ -6,8 +6,8 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 
-from models import WoundAssessment
-from wound_logic import assess_wound
+from models import RedFlagScreening, WoundAssessment
+from wound_logic import assess_red_flags, assess_wound
 from wound_rules import MULTI_SELECT_CHOICES, RED_FLAG_QUESTIONS
 
 
@@ -18,7 +18,6 @@ app = FastAPI(
 )
 
 # Templates
-templates = Jinja2Templates(directory="templates")
 templates = Jinja2Templates(directory="templates")
 static_content = Path("static/style.css").read_bytes() + Path("static/script.js").read_bytes()
 templates.env.globals["static_version"] = hashlib.sha256(static_content).hexdigest()[:12]
@@ -65,9 +64,21 @@ def assessment(request: Request):
 @app.post("/assess")
 async def assess(request: Request):
     form = await request.form()
-    payload = {
-        "red_flags": {code: form.get(code, "") for code in RED_FLAG_QUESTIONS},
-    }
+    red_flags = {code: form.get(code, "") for code in RED_FLAG_QUESTIONS}
+    try:
+        RedFlagScreening(red_flags=red_flags)
+    except ValidationError as error:
+        messages = "; ".join(item["msg"] for item in error.errors())
+        raise HTTPException(status_code=422, detail=messages) from error
+
+    if any(answer in {"yes", "unable"} for answer in red_flags.values()):
+        return templates.TemplateResponse(
+            request=request,
+            name="result.html",
+            context={"result": assess_red_flags(red_flags)},
+        )
+
+    payload = {"red_flags": red_flags}
     for field in WoundAssessment.model_fields:
         if field == "red_flags":
             continue

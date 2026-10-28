@@ -1,6 +1,26 @@
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from wound_rules import ASSESSMENT_CHOICES, MULTI_SELECT_CHOICES, RED_FLAG_QUESTIONS
+from wound_rules import (
+    ASSESSMENT_CHOICES,
+    MULTI_SELECT_CHOICES,
+    RED_FLAG_CHOICES,
+    RED_FLAG_QUESTIONS,
+)
+
+
+class RedFlagScreening(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    red_flags: dict[str, str]
+
+    @model_validator(mode="after")
+    def validate_red_flags(self):
+        if set(self.red_flags) != set(RED_FLAG_QUESTIONS):
+            raise ValueError("ต้องตอบคำถามคัดกรองอันตรายให้ครบทุกข้อ")
+        for key, value in self.red_flags.items():
+            if value not in RED_FLAG_CHOICES[key]:
+                raise ValueError(f"คำตอบคัดกรอง {key} ไม่ถูกต้อง")
+        return self
 
 
 class WoundAssessment(BaseModel):
@@ -9,6 +29,7 @@ class WoundAssessment(BaseModel):
     red_flags: dict[str, str]
     age_group: str
     comorbidities: list[str] = Field(default_factory=list)
+    healing_factors: list[str] = Field(default_factory=list)
     medications: list[str] = Field(default_factory=list)
     allergies: list[str] = Field(default_factory=list)
     pregnancy: str
@@ -24,6 +45,8 @@ class WoundAssessment(BaseModel):
     tissue: str
     depth: str
     infection_signs: list[str] = Field(default_factory=list)
+    erythema_extent: str
+    purulence: str
     exudate: str
     exudate_character: str
     wound_edge: str
@@ -38,14 +61,7 @@ class WoundAssessment(BaseModel):
 
     @model_validator(mode="after")
     def validate_answer_choices(self):
-        if set(self.red_flags) != set(RED_FLAG_QUESTIONS):
-            raise ValueError("ต้องตอบคำถามคัดกรองอันตรายให้ครบทุกข้อ")
-        for key, value in self.red_flags.items():
-            allowed = {"yes", "no", "unable"} if key == "a2" else (
-                {"yes", "no", "unknown"} if key == "a11" else {"yes", "no"}
-            )
-            if value not in allowed:
-                raise ValueError(f"คำตอบคัดกรอง {key} ไม่ถูกต้อง")
+        RedFlagScreening(red_flags=self.red_flags)
 
         for field, allowed in ASSESSMENT_CHOICES.items():
             if getattr(self, field) not in allowed:
